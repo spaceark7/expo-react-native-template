@@ -4,11 +4,33 @@
  */
 
 import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useThemeContext } from '@/contexts/theme-context';
+import { DarkTheme, DefaultTheme } from '@react-navigation/native';
 
 export function useTheme() {
-  const scheme = useColorScheme();
-  const theme = scheme === 'unspecified' ? 'light' : scheme;
+  const { resolvedTheme, themeMode, setThemeMode, toggleTheme } = useThemeContext();
 
-  return Colors[theme];
+  const lightTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      ...Colors.light,
+    }
+  }
+  const darkTheme = {
+    ...DarkTheme,
+    colors: {
+      ...DarkTheme.colors,
+      ...Colors.dark,
+    }
+  }
+
+  return {
+    lightTheme,
+    darkTheme,
+    theme: Colors[resolvedTheme],
+    themeMode,
+    setThemeMode,
+    toggleTheme,
+  };
 }
