@@ -2,6 +2,7 @@ import { router } from 'expo-router'
 import React, { useState } from 'react'
 import { Platform, ScrollView, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Ionicons } from '@expo/vector-icons'
 
 import { ThemedButton } from '@/components/themed-button'
 import { ThemedText } from '@/components/themed-text'
@@ -190,6 +191,59 @@ export default function ButtonDemoScreen() {
               size='small'
               onPress={() => console.log('Small outline')}>
               Small Outline
+            </ThemedButton>
+          </ThemedView>
+        </ThemedView>
+
+        {/* Icons Section */}
+        <ThemedView style={styles.section}>
+          <ThemedText type='default' style={styles.sectionTitle}>
+            With Icons
+          </ThemedText>
+
+          <ThemedView style={styles.buttonRow}>
+            <ThemedButton
+              variant='primary'
+              leftIcon={<Ionicons name='add' size={20} color='#fff' />}
+              onPress={() => console.log('Add new')}>
+              Add New
+            </ThemedButton>
+          </ThemedView>
+
+          <ThemedView style={styles.buttonRow}>
+            <ThemedButton
+              variant='secondary'
+              rightIcon={<Ionicons name='arrow-forward' size={20} color={theme.text} />}
+              onPress={() => console.log('Next')}>
+              Next
+            </ThemedButton>
+          </ThemedView>
+
+          <ThemedView style={styles.buttonRow}>
+            <ThemedButton
+              variant='outline'
+              leftIcon={<Ionicons name='download' size={20} color={theme.primary} />}
+              onPress={() => console.log('Download')}>
+              Download
+            </ThemedButton>
+          </ThemedView>
+
+          <ThemedView style={styles.buttonRow}>
+            <ThemedButton
+              variant='ghost'
+              iconOnly
+              size='small'
+              onPress={() => console.log('Settings')}>
+              <Ionicons name='settings' size={24} color={theme.text} />
+            </ThemedButton>
+          </ThemedView>
+
+          <ThemedView style={styles.buttonRow}>
+            <ThemedButton
+              variant='danger'
+              leftIcon={<Ionicons name='trash' size={20} color='#fff' />}
+              onPress={() => console.log('Delete')}>
+              Delete
             </ThemedButton>
           </ThemedView>
         </ThemedView>

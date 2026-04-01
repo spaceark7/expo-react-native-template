@@ -2,6 +2,7 @@ import {
   ActivityIndicator,
   Pressable,
   StyleSheet,
+  View,
   type PressableProps,
   type ViewStyle
 } from 'react-native'
@@ -16,7 +17,10 @@ export type ThemedButtonProps = PressableProps & {
   size?: 'small' | 'medium' | 'large'
   loading?: boolean
   disabled?: boolean
-  children: React.ReactNode
+  children?: React.ReactNode
+  leftIcon?: React.ReactNode
+  rightIcon?: React.ReactNode
+  iconOnly?: boolean
 }
 
 export function ThemedButton({
@@ -25,6 +29,9 @@ export function ThemedButton({
   loading = false,
   disabled = false,
   children,
+  leftIcon,
+  rightIcon,
+  iconOnly = false,
   style,
   ...rest
 }: ThemedButtonProps) {
@@ -85,6 +92,37 @@ export function ThemedButton({
   }
 
   const getSizeStyles = (): ViewStyle => {
+    // Icon-only buttons should have minimal padding
+    if (iconOnly) {
+      switch (size) {
+        case 'small':
+          return {
+            padding: Spacing.one,
+            minHeight: 32,
+            minWidth: 32
+          }
+        case 'medium':
+          return {
+            padding: Spacing.two,
+            minHeight: 44,
+            minWidth: 44
+          }
+        case 'large':
+          return {
+            padding: Spacing.three,
+            minHeight: 56,
+            minWidth: 56
+          }
+        default:
+          return {
+            padding: Spacing.two,
+            minHeight: 44,
+            minWidth: 44
+          }
+      }
+    }
+
+    // Regular buttons with text
     switch (size) {
       case 'small':
         return {
@@ -126,6 +164,39 @@ export function ThemedButton({
     }
   }
 
+  const renderContent = () => {
+    if (loading) {
+      return <ActivityIndicator color={getTextColor()} />
+    }
+
+    // If iconOnly mode, render children directly (icon)
+    if (iconOnly) {
+      return children
+    }
+
+    // If children is a string or has text content
+    const hasTextContent =
+      typeof children === 'string' || typeof children === 'number'
+
+    return (
+      <View style={styles.content}>
+        {leftIcon && <View style={styles.iconLeft}>{leftIcon}</View>}
+
+        {hasTextContent ? (
+          <ThemedText
+            style={[styles.text, { color: getTextColor() }]}
+            type={getTextSize()}>
+            {children}
+          </ThemedText>
+        ) : (
+          children
+        )}
+
+        {rightIcon && <View style={styles.iconRight}>{rightIcon}</View>}
+      </View>
+    )
+  }
+
   return (
     <Pressable
       disabled={isDisabled}
@@ -143,15 +214,7 @@ export function ThemedButton({
         ]
       }}
       {...rest}>
-      {loading ? (
-        <ActivityIndicator color={getTextColor()} />
-      ) : (
-        <ThemedText
-          style={[styles.text, { color: getTextColor() }]}
-          type={getTextSize()}>
-          {children}
-        </ThemedText>
-      )}
+      {renderContent()}
     </Pressable>
   )
 }
@@ -163,8 +226,19 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     flexDirection: 'row'
   },
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   text: {
     fontWeight: '600',
     textAlign: 'center'
+  },
+  iconLeft: {
+    marginRight: Spacing.two
+  },
+  iconRight: {
+    marginLeft: Spacing.two
   }
 })

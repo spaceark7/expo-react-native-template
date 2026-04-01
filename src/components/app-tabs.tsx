@@ -1,16 +1,15 @@
-import React from 'react'
-import { useColorScheme } from 'react-native'
-
+import { useTabBar } from '@/contexts/tabbar-context'
 import { useTheme } from '@/hooks/use-theme'
 import { NativeTabs } from 'expo-router/build/native-tabs'
+import React from 'react'
 
 export default function AppTabs() {
-  const scheme = useColorScheme()
-  // const colors = Colors[scheme === 'unspecified' ? 'light' : scheme]
   const { theme } = useTheme()
+  const { isVisible } = useTabBar()
 
   return (
     <NativeTabs
+      hidden={!isVisible}
       backgroundColor={theme.background}
       indicatorColor={theme.appBarIndicator}
       labelStyle={{
@@ -48,6 +47,9 @@ export default function AppTabs() {
           renderingMode='template'
         />
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger
+        name='profile'
+        children={undefined}></NativeTabs.Trigger>
     </NativeTabs>
     // <Tabs
     //   screenOptions={{

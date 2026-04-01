@@ -1,6 +1,11 @@
 import { Platform, StyleSheet, Text, type TextProps } from 'react-native'
 
-import { Fonts, ThemeColor } from '@/constants/theme'
+import {
+  Fonts,
+  responsiveFontSize,
+  responsiveLineHeight,
+  ThemeColor
+} from '@/constants/theme'
 import { useTheme } from '@/hooks/use-theme'
 
 export type ThemedTextProps = TextProps & {
@@ -45,42 +50,42 @@ export function ThemedText({
 
 const styles = StyleSheet.create({
   small: {
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: 500
+    fontSize: responsiveFontSize('small'),
+    lineHeight: responsiveLineHeight(responsiveFontSize('small')),
+    fontWeight: '500'
   },
   smallBold: {
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: 700
+    fontSize: responsiveFontSize('small'),
+    lineHeight: responsiveLineHeight(responsiveFontSize('small')),
+    fontWeight: '700'
   },
   default: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: 500
+    fontSize: responsiveFontSize('default'),
+    lineHeight: responsiveLineHeight(responsiveFontSize('default')),
+    fontWeight: '500'
   },
   title: {
-    fontSize: 48,
-    fontWeight: 600,
-    lineHeight: 52
+    fontSize: responsiveFontSize('display'),
+    fontWeight: '600',
+    lineHeight: responsiveLineHeight(responsiveFontSize('display'))
   },
   subtitle: {
-    fontSize: 32,
-    lineHeight: 44,
-    fontWeight: 600
+    fontSize: responsiveFontSize('title'),
+    lineHeight: responsiveLineHeight(responsiveFontSize('title')),
+    fontWeight: '600'
   },
   link: {
-    lineHeight: 30,
-    fontSize: 14
+    fontSize: responsiveFontSize('small'),
+    lineHeight: responsiveLineHeight(responsiveFontSize('small'))
   },
   linkPrimary: {
-    lineHeight: 30,
-    fontSize: 14,
+    fontSize: responsiveFontSize('small'),
+    lineHeight: responsiveLineHeight(responsiveFontSize('small')),
     color: '#3c87f7'
   },
   code: {
     fontFamily: Fonts.mono,
-    fontWeight: Platform.select({ android: 700 }) ?? 500,
-    fontSize: 12
+    fontWeight: Platform.select({ android: '700' }) ?? '500',
+    fontSize: responsiveFontSize('tiny')
   }
 })

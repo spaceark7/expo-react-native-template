@@ -1,4 +1,5 @@
 import { APP_CONFIG } from '@/constants/config'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as NavigationBar from 'expo-navigation-bar'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useColorScheme as useRNColorScheme } from 'react-native'
@@ -16,9 +17,12 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 // Safe AsyncStorage wrapper that handles when native module isn't available
-let AsyncStorage: any = null
 try {
-  AsyncStorage = require('@react-native-async-storage/async-storage').default
+  if (!AsyncStorage) {
+    console.warn(
+      'AsyncStorage is not available. Theme preference will not persist across app restarts.'
+    )
+  }
 } catch (e) {
   console.log('AsyncStorage not available, theme preference will not persist')
 }

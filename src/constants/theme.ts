@@ -5,7 +5,7 @@
 
 import '@/global.css';
 
-import { Platform } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 
 const primary = {
   50: '#E8F1F9',
@@ -112,3 +112,79 @@ export const Spacing = {
 
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
 export const MaxContentWidth = 800;
+
+/**
+ * Device size breakpoints (width in dp)
+ */
+export const Breakpoints = {
+  phone: 0,      // < 600
+  tablet: 600,   // 600 - 1024
+  desktop: 1024, // > 1024
+} as const;
+
+/**
+ * Detect device size category based on screen width
+ */
+export function getDeviceSize(): 'phone' | 'tablet' | 'desktop' {
+  const { width } = Dimensions.get('window');
+
+  if (width >= Breakpoints.desktop) {
+    return 'desktop';
+  } else if (width >= Breakpoints.tablet) {
+    return 'tablet';
+  }
+  return 'phone';
+}
+
+/**
+ * Font size scales for different device sizes
+ */
+export const FontSizes = {
+  phone: {
+    tiny: 12,
+    small: 14,
+    default: 16,
+    medium: 18,
+    large: 20,
+    xlarge: 24,
+    title: 32,
+    display: 48,
+  },
+  tablet: {
+    tiny: 14,
+    small: 16,
+    default: 18,
+    medium: 20,
+    large: 24,
+    xlarge: 28,
+    title: 40,
+    display: 56,
+  },
+  desktop: {
+    tiny: 16,
+    small: 18,
+    default: 20,
+    medium: 22,
+    large: 26,
+    xlarge: 32,
+    title: 48,
+    display: 64,
+  },
+} as const;
+
+/**
+ * Get responsive font size based on current device size
+ */
+export function responsiveFontSize(
+  size: keyof typeof FontSizes.phone
+): number {
+  const deviceSize = getDeviceSize();
+  return FontSizes[deviceSize][size];
+}
+
+/**
+ * Line height multiplier for responsive text
+ */
+export function responsiveLineHeight(fontSize: number): number {
+  return Math.round(fontSize * 1.5);
+}

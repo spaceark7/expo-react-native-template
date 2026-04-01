@@ -1,6 +1,6 @@
-import { ThemedView } from '@/components/themed-view'
+import { AvatarAction } from '@/components/ui/avatar-action'
 import { useTheme } from '@/hooks/use-theme'
-import { Stack } from 'expo-router'
+import { Stack, router } from 'expo-router'
 
 export const unstable_settings = {
   initialRouteName: 'index'
@@ -17,17 +17,8 @@ export default function Layout() {
         title: 'Buku Belanja',
         headerTintColor: theme.text,
         headerRight({ tintColor }) {
-          //Mock Avatar
-          return (
-            <ThemedView
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: 16,
-                backgroundColor: tintColor
-              }}
-            />
-          )
+          //Mock Avatar - Navigate to shared profile screen
+          return <AvatarAction onPress={() => router.push('/profile')} />
         }
       }}
     />

@@ -8,7 +8,7 @@ import {
   type ViewStyle
 } from 'react-native'
 
-import { Spacing } from '@/constants/theme'
+import { responsiveFontSize, Spacing } from '@/constants/theme'
 import { useTheme } from '@/hooks/use-theme'
 
 import { ThemedText } from './themed-text'
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   input: {
-    fontSize: 16,
+    fontSize: responsiveFontSize('default'),
     paddingVertical: Spacing.two
   },
   icon: {

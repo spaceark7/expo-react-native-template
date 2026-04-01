@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Pressable, StyleSheet, TextInput } from 'react-native'
 
-import { Spacing } from '@/constants/theme'
+import { responsiveFontSize, Spacing } from '@/constants/theme'
 import { useTheme } from '@/hooks/use-theme'
 
 import { ThemedText } from './themed-text'
@@ -93,13 +93,13 @@ export function ThemedNumericInput({
   const getFontSize = (): number => {
     switch (size) {
       case 'small':
-        return 14
+        return responsiveFontSize('small')
       case 'medium':
-        return 16
+        return responsiveFontSize('default')
       case 'large':
-        return 18
+        return responsiveFontSize('medium')
       default:
-        return 16
+        return responsiveFontSize('default')
     }
   }
 
