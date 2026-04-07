@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Pressable, StyleSheet, TextInput } from 'react-native'
+import { Pressable, StyleSheet, TextInput, View } from 'react-native'
 
 import { responsiveFontSize, Spacing } from '@/constants/theme'
 import { useTheme } from '@/hooks/use-theme'
@@ -118,30 +118,35 @@ export function ThemedNumericInput({
         {showButtons && (
           <Pressable
             disabled={disabled || value <= min}
-            onPress={handleDecrement}
-            style={({ pressed }) => [
-              styles.button,
-              {
-                backgroundColor:
-                  disabled || value <= min
-                    ? theme.backgroundElement
-                    : pressed
-                      ? theme.primary700
-                      : theme.primary,
-                width: buttonSize,
-                height: buttonSize,
-                opacity: disabled || value <= min ? 0.5 : 1
-              }
-            ]}>
-            <ThemedText
-              style={[
-                styles.buttonText,
-                {
-                  color: disabled || value <= min ? theme.textSecondary : '#fff'
-                }
-              ]}>
-              −
-            </ThemedText>
+            onPress={handleDecrement}>
+            {({ pressed }) => (
+              <View
+                style={[
+                  styles.button,
+                  {
+                    backgroundColor:
+                      disabled || value <= min
+                        ? theme.backgroundElement
+                        : pressed
+                          ? theme.primary700
+                          : theme.primary,
+                    width: buttonSize,
+                    height: buttonSize,
+                    opacity: disabled || value <= min ? 0.5 : 1
+                  }
+                ]}>
+                <ThemedText
+                  style={[
+                    styles.buttonText,
+                    {
+                      color:
+                        disabled || value <= min ? theme.textSecondary : '#fff'
+                    }
+                  ]}>
+                  −
+                </ThemedText>
+              </View>
+            )}
           </Pressable>
         )}
 
@@ -177,30 +182,35 @@ export function ThemedNumericInput({
         {showButtons && (
           <Pressable
             disabled={disabled || value >= max}
-            onPress={handleIncrement}
-            style={({ pressed }) => [
-              styles.button,
-              {
-                backgroundColor:
-                  disabled || value >= max
-                    ? theme.backgroundElement
-                    : pressed
-                      ? theme.primary700
-                      : theme.primary,
-                width: buttonSize,
-                height: buttonSize,
-                opacity: disabled || value >= max ? 0.5 : 1
-              }
-            ]}>
-            <ThemedText
-              style={[
-                styles.buttonText,
-                {
-                  color: disabled || value >= max ? theme.textSecondary : '#fff'
-                }
-              ]}>
-              +
-            </ThemedText>
+            onPress={handleIncrement}>
+            {({ pressed }) => (
+              <View
+                style={[
+                  styles.button,
+                  {
+                    backgroundColor:
+                      disabled || value >= max
+                        ? theme.backgroundElement
+                        : pressed
+                          ? theme.primary700
+                          : theme.primary,
+                    width: buttonSize,
+                    height: buttonSize,
+                    opacity: disabled || value >= max ? 0.5 : 1
+                  }
+                ]}>
+                <ThemedText
+                  style={[
+                    styles.buttonText,
+                    {
+                      color:
+                        disabled || value >= max ? theme.textSecondary : '#fff'
+                    }
+                  ]}>
+                  +
+                </ThemedText>
+              </View>
+            )}
           </Pressable>
         )}
       </ThemedView>

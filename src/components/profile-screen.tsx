@@ -9,6 +9,7 @@ import React from 'react'
 export function ProfileScreen() {
   return (
     <ThemedView
+      type='background'
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <ThemedText type='title'>Profile Screen</ThemedText>
       <ThemedText themeColor='textSecondary' style={{ marginTop: 16 }}>

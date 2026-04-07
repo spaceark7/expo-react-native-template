@@ -22,7 +22,7 @@ export default function Layout() {
             <AvatarAction
               onPress={() => {
                 console.log('Avatar pressed, navigating to profile')
-                router.push('/(tabs)/profile')
+                router.push('/profile')
               }}
             />
           )

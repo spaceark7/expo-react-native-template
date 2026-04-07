@@ -47,9 +47,9 @@ export default function AppTabs() {
           renderingMode='template'
         />
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger
+      {/* <NativeTabs.Trigger
         name='profile'
-        children={undefined}></NativeTabs.Trigger>
+        children={undefined}></NativeTabs.Trigger> */}
     </NativeTabs>
     // <Tabs
     //   screenOptions={{

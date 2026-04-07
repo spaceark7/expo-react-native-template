@@ -1,8 +1,8 @@
+import { Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import React, { useState } from 'react'
 import { Platform, ScrollView, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Ionicons } from '@expo/vector-icons'
 
 import { ThemedButton } from '@/components/themed-button'
 import { ThemedText } from '@/components/themed-text'
@@ -213,7 +213,9 @@ export default function ButtonDemoScreen() {
           <ThemedView style={styles.buttonRow}>
             <ThemedButton
               variant='secondary'
-              rightIcon={<Ionicons name='arrow-forward' size={20} color={theme.text} />}
+              rightIcon={
+                <Ionicons name='arrow-forward' size={20} color={theme.text} />
+              }
               onPress={() => console.log('Next')}>
               Next
             </ThemedButton>
@@ -222,7 +224,9 @@ export default function ButtonDemoScreen() {
           <ThemedView style={styles.buttonRow}>
             <ThemedButton
               variant='outline'
-              leftIcon={<Ionicons name='download' size={20} color={theme.primary} />}
+              leftIcon={
+                <Ionicons name='download' size={20} color={theme.primary} />
+              }
               onPress={() => console.log('Download')}>
               Download
             </ThemedButton>

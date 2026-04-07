@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   ActivityIndicator,
   Pressable,
@@ -164,6 +165,17 @@ export function ThemedButton({
     }
   }
 
+  const cloneIconWithColor = (icon: React.ReactNode) => {
+    if (!icon) return null
+    if (React.isValidElement(icon)) {
+      return React.cloneElement(icon, {
+        // @ts-ignore - color prop exists on icon components
+        color: getTextColor()
+      } as any)
+    }
+    return icon
+  }
+
   const renderContent = () => {
     if (loading) {
       return <ActivityIndicator color={getTextColor()} />
@@ -180,7 +192,9 @@ export function ThemedButton({
 
     return (
       <View style={styles.content}>
-        {leftIcon && <View style={styles.iconLeft}>{leftIcon}</View>}
+        {leftIcon && (
+          <View style={styles.iconLeft}>{cloneIconWithColor(leftIcon)}</View>
+        )}
 
         {hasTextContent ? (
           <ThemedText
@@ -192,7 +206,9 @@ export function ThemedButton({
           children
         )}
 
-        {rightIcon && <View style={styles.iconRight}>{rightIcon}</View>}
+        {rightIcon && (
+          <View style={styles.iconRight}>{cloneIconWithColor(rightIcon)}</View>
+        )}
       </View>
     )
   }
@@ -200,21 +216,29 @@ export function ThemedButton({
   return (
     <Pressable
       disabled={isDisabled}
-      style={(state) => {
-        const customStyle = typeof style === 'function' ? style(state) : style
-        return [
-          styles.button,
-          {
-            backgroundColor: getBackgroundColor(state.pressed),
-            opacity: isDisabled ? 0.5 : 1
-          },
-          getBorderStyle(),
-          getSizeStyles(),
-          customStyle
-        ]
-      }}
+      style={
+        typeof style === 'function'
+          ? (state) => {
+              const customStyle = style(state)
+              return customStyle
+            }
+          : style
+      }
       {...rest}>
-      {renderContent()}
+      {({ pressed }) => (
+        <View
+          style={[
+            styles.button,
+            {
+              backgroundColor: getBackgroundColor(pressed),
+              opacity: isDisabled ? 0.5 : 1
+            },
+            getBorderStyle(),
+            getSizeStyles()
+          ]}>
+          {renderContent()}
+        </View>
+      )}
     </Pressable>
   )
 }

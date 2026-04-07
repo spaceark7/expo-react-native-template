@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import { Spacing } from '@/constants/theme'
 import { useTheme } from '@/hooks/use-theme'
@@ -34,33 +34,15 @@ export function ThemeToggle({ showLabel = true }: ThemeToggleProps) {
         </ThemedText>
       )}
       <ThemedView style={styles.buttonGroup}>
-        {modes.map(mode => (
+        {modes.map((mode) => (
           <ThemedButton
             key={mode.value}
             variant={themeMode === mode.value ? 'primary' : 'outline'}
             size='medium'
             onPress={() => setThemeMode(mode.value)}
-            style={styles.button}>
-            <View style={styles.buttonContent}>
-              <Ionicons
-                name={mode.icon as any}
-                size={20}
-                color={
-                  themeMode === mode.value ? '#ffffff' : theme.textSecondary
-                }
-              />
-              <ThemedText
-                type='small'
-                style={[
-                  styles.buttonText,
-                  {
-                    color:
-                      themeMode === mode.value ? '#ffffff' : theme.textSecondary
-                  }
-                ]}>
-                {mode.label}
-              </ThemedText>
-            </View>
+            style={styles.button}
+            leftIcon={<Ionicons name={mode.icon as any} size={20} />}>
+            {mode.label}
           </ThemedButton>
         ))}
       </ThemedView>

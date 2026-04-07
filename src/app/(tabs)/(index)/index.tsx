@@ -1,13 +1,15 @@
 import * as Device from 'expo-device'
-import { Platform, StyleSheet } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Platform, ScrollView, StyleSheet } from 'react-native'
 
-import { AnimatedIcon } from '@/components/animated-icon'
-import { HintRow } from '@/components/hint-row'
 import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
+import Badge from '@/components/ui/badge'
+import { Card } from '@/components/ui/card'
 import { WebBadge } from '@/components/web-badge'
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme'
+import { useTheme } from '@/hooks/use-theme'
+import { verifyInstallation } from 'nativewind'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 function getDevMenuHint() {
   if (Platform.OS === 'web') {
@@ -29,59 +31,203 @@ function getDevMenuHint() {
 }
 
 export default function HomeScreen() {
+  const { theme } = useTheme()
+  const safeAreaInsets = useSafeAreaInsets()
+  const insets = {
+    ...safeAreaInsets,
+    bottom: safeAreaInsets.bottom + BottomTabInset + Spacing.three
+  }
+  const contentPlatformStyle = Platform.select({
+    android: {
+      paddingTop: insets.top,
+      paddingLeft: insets.left,
+      paddingRight: insets.right,
+      paddingBottom: insets.bottom
+    },
+    web: {
+      paddingTop: Spacing.six,
+      paddingBottom: Spacing.four
+    }
+  })
+
+  verifyInstallation()
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type='title' style={styles.title}>
-            Welcome to&nbsp;Expo
+    <ScrollView
+      style={[styles.scrollView, { backgroundColor: theme.background }]}
+      contentInset={insets}
+      contentContainerStyle={[styles.contentContainer, contentPlatformStyle]}>
+      <ThemedView style={styles.container}>
+        <Card style={styles.cardContainer}>
+          <ThemedText
+            style={{
+              fontSize: 10,
+              fontWeight: '700',
+              letterSpacing: 1,
+              color: theme.onSurfaceVariant
+            }}>
+            ANALISIS MINGGUAN
           </ThemedText>
-        </ThemedView>
-
-        <ThemedText type='code' style={styles.code}>
-          get started
+          <ThemedText
+            style={{
+              fontSize: 24,
+              fontWeight: '700'
+            }}>
+            -12%{' '}
+            <ThemedText
+              style={{
+                color: theme.success,
+                fontSize: 14,
+                fontWeight: '400'
+              }}>
+              Hemat dari minggu lalu
+            </ThemedText>
+          </ThemedText>
+          <ThemedView
+            style={{
+              backgroundColor: 'transparent',
+              flexDirection: 'row',
+              alignItems: 'flex-end',
+              gap: 8,
+              height: 100,
+              marginTop: 20
+            }}>
+            {[40, 60, 35, 85, 55, 95, 20].map((h, i) => (
+              <ThemedView
+                key={i}
+                style={[
+                  {
+                    flex: 1,
+                    borderTopLeftRadius: 4,
+                    borderTopRightRadius: 4
+                  },
+                  {
+                    height: h,
+                    backgroundColor:
+                      i === 6 ? theme.secondaryFixed : theme.primary,
+                    opacity: i === 6 ? 1 : 0.4 + i * 0.1
+                  }
+                ]}
+              />
+            ))}
+          </ThemedView>
+        </Card>
+        <ThemedText
+          type='caption'
+          themeColor='textSecondary'
+          style={{
+            marginTop: Spacing.five,
+            alignSelf: 'flex-start',
+            marginBottom: Spacing.two
+          }}>
+          SESI BERJALAN
         </ThemedText>
-
-        <ThemedView type='backgroundElement' style={styles.stepContainer}>
-          <HintRow
-            title='Try editing'
-            hint={<ThemedText type='code'>src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title='Dev tools' hint={getDevMenuHint()} />
-          <HintRow
-            title='Fresh start'
-            hint={<ThemedText type='code'>npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+        <Card borderLeft style={styles.cardContainer}>
+          <ThemedView className='!justify-between flex-row w-full !bg-transparent'>
+            <ThemedView className='!bg-transparent '>
+              <ThemedText>
+                {new Date().toLocaleDateString('id-ID', {
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long'
+                })}
+              </ThemedText>
+              <ThemedText
+                type='small'
+                style={{ color: theme.onSurfaceVariant }}>
+                3 item
+              </ThemedText>
+            </ThemedView>
+            <Badge variant='primary'>Rp 150.000</Badge>
+          </ThemedView>
+          <ThemedText
+            style={{
+              fontSize: 10,
+              fontWeight: '700',
+              letterSpacing: 1,
+              color: theme.onSurfaceVariant
+            }}>
+            ANALISIS MINGGUAN
+          </ThemedText>
+          <ThemedText
+            style={{
+              fontSize: 24,
+              fontWeight: '700'
+            }}>
+            -12%{' '}
+            <ThemedText
+              style={{
+                color: theme.success,
+                fontSize: 14,
+                fontWeight: '400'
+              }}>
+              Hemat dari minggu lalu
+            </ThemedText>
+          </ThemedText>
+          <ThemedView
+            style={{
+              backgroundColor: 'transparent',
+              flexDirection: 'row',
+              alignItems: 'flex-end',
+              gap: 8,
+              height: 100,
+              marginTop: 20
+            }}>
+            {[40, 60, 35, 85, 55, 95, 20].map((h, i) => (
+              <ThemedView
+                key={i}
+                style={[
+                  {
+                    flex: 1,
+                    borderTopLeftRadius: 4,
+                    borderTopRightRadius: 4
+                  },
+                  {
+                    height: h,
+                    backgroundColor:
+                      i === 6 ? theme.secondaryFixed : theme.primary,
+                    opacity: i === 6 ? 1 : 0.4 + i * 0.1
+                  }
+                ]}
+              />
+            ))}
+          </ThemedView>
+        </Card>
 
         {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+      </ThemedView>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+  scrollView: {
     flex: 1,
-    justifyContent: 'center',
+    width: '100%',
+    padding: Spacing.four,
+    paddingBottom: BottomTabInset,
+    maxWidth: MaxContentWidth
+  },
+  contentContainer: {
     flexDirection: 'row',
-    borderRadius: Spacing.four
+    justifyContent: 'center'
+  },
+  container: {
+    maxWidth: MaxContentWidth,
+    flexGrow: 1
   },
   safeArea: {
     flex: 1,
-    paddingHorizontal: Spacing.four,
+    // paddingHorizontal: Spacing.four,
     alignItems: 'center',
     gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
+    // paddingBottom: BottomTabInset + Spacing.three,
     maxWidth: MaxContentWidth
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four
+  cardContainer: {
+    gap: Spacing.two,
+    width: '100%',
+    flexDirection: 'column'
   },
   title: {
     textAlign: 'center'

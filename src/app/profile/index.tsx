@@ -5,6 +5,7 @@ import React from 'react'
 export default function Profile() {
   return (
     <ThemedView
+      type='background'
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <ThemedText type='title'>Profile Screen</ThemedText>
     </ThemedView>

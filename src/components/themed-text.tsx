@@ -12,6 +12,7 @@ export type ThemedTextProps = TextProps & {
   type?:
     | 'default'
     | 'title'
+    | 'caption'
     | 'small'
     | 'smallBold'
     | 'subtitle'
@@ -19,23 +20,27 @@ export type ThemedTextProps = TextProps & {
     | 'linkPrimary'
     | 'code'
   themeColor?: ThemeColor
+  className?: string
 }
 
 export function ThemedText({
   style,
   type = 'default',
   themeColor,
+  className,
   ...rest
 }: ThemedTextProps) {
   const { theme } = useTheme()
 
   return (
     <Text
+      className={className}
       style={[
         { color: theme[themeColor ?? 'text'] },
         type === 'default' && styles.default,
         type === 'title' && styles.title,
         type === 'small' && styles.small,
+        type === 'caption' && styles.small,
         type === 'smallBold' && styles.smallBold,
         type === 'subtitle' && styles.subtitle,
         type === 'link' && styles.link,
@@ -49,6 +54,10 @@ export function ThemedText({
 }
 
 const styles = StyleSheet.create({
+  caption: {
+    fontSize: responsiveFontSize('tiny'),
+    lineHeight: responsiveLineHeight(responsiveFontSize('tiny'))
+  },
   small: {
     fontSize: responsiveFontSize('small'),
     lineHeight: responsiveLineHeight(responsiveFontSize('small')),

@@ -1,6 +1,7 @@
 import { APP_CONFIG } from '@/constants/config'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as NavigationBar from 'expo-navigation-bar'
+import { colorScheme } from 'nativewind'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useColorScheme as useRNColorScheme } from 'react-native'
 
@@ -40,6 +41,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         )
         if (savedTheme && ['light', 'dark', 'system'].includes(savedTheme)) {
           setThemeModeState(savedTheme as ThemeMode)
+          colorScheme.set(savedTheme as ResolvedTheme)
         }
       } catch (error) {
         console.error('Failed to load theme preference:', error)
@@ -62,6 +64,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       }
     }
     setThemeModeState(mode)
+    colorScheme.set(
+      mode === 'system'
+        ? systemColorScheme === 'dark'
+          ? 'dark'
+          : 'light'
+        : mode
+    )
   }
 
   const toggleTheme = () => {

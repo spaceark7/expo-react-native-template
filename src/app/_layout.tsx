@@ -1,5 +1,6 @@
 import { ThemeProvider as AppThemeProvider } from '@/contexts/theme-context'
 import { Stack } from 'expo-router'
+import '../global.css'
 
 export default function Layout() {
   return (
