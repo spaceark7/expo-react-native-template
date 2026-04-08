@@ -8,28 +8,29 @@ A framework-agnostic HTTP client built on Axios with token refresh, request queu
 
 ```
 src/
-  core/http/               ← pure TypeScript + Axios, no framework imports
-    types.ts               ← all shared types
-    interceptors.ts        ← request/response interceptor logic
-    axios-instance.ts      ← instance factory
-    request.ts             ← executeRequest with dedup cache
+  infrastructure/http-client/
+    core/http/               ← pure TypeScript + Axios, no framework imports
+      types.ts               ← all shared types
+      interceptors.ts        ← request/response interceptor logic
+      axios-instance.ts      ← instance factory
+      request.ts             ← executeRequest with dedup cache
 
-  adapters/react/          ← React Native / Expo bindings
-    auth-store.ts          ← Zustand store (persisted to AsyncStorage)
-    force-logout.ts        ← Alert.alert + expo-router navigation
-    setup-http.ts          ← wires core with React adapter
-    use-fetch.ts           ← useFetch React hook
+    adapters/react/          ← React Native / Expo bindings
+      auth-store.ts          ← Zustand store (persisted to AsyncStorage)
+      force-logout.ts        ← Alert.alert + expo-router navigation
+      setup-http.ts          ← wires core with React adapter
+      use-fetch.ts           ← useFetch React hook
 
-  adapters/vue/            ← future Vue bindings (stubs only)
-    auth-store.ts
-    force-logout.ts
-    setup-http.ts
-    use-fetch.ts
+    adapters/vue/            ← future Vue bindings (stubs only)
+      auth-store.ts
+      force-logout.ts
+      setup-http.ts
+      use-fetch.ts
 ```
 
 ---
 
-## Core Types (`src/core/http/types.ts`)
+## Core Types (`src/infrastructure/http-client/core/http/types.ts`)
 
 ### `AuthEntity`
 
@@ -93,7 +94,7 @@ interface UseFetchResult<T> {
 
 ---
 
-## Core — Interceptors (`src/core/http/interceptors.ts`)
+## Core — Interceptors (`src/infrastructure/http-client/core/http/interceptors.ts`)
 
 `setupInterceptors(instance, config)` attaches two interceptors to an Axios instance:
 
@@ -123,7 +124,7 @@ interface UseFetchResult<T> {
 
 ---
 
-## Core — `executeRequest` (`src/core/http/request.ts`)
+## Core — `executeRequest` (`src/infrastructure/http-client/core/http/request.ts`)
 
 ```ts
 executeRequest<T>(
@@ -142,7 +143,7 @@ executeRequest<T>(
 
 ## React Adapter
 
-### Auth Store (`src/adapters/react/auth-store.ts`)
+### Auth Store (`src/infrastructure/http-client/adapters/react/auth-store.ts`)
 
 Zustand store persisted to AsyncStorage.
 
@@ -159,7 +160,7 @@ const { auth, getAccessToken, setTokens, logout } = useAuthStore()
 | `logout()`           | Clears auth state                          |
 | `resetState()`       | Alias for `logout()`                       |
 
-### Setup HTTP (`src/adapters/react/setup-http.ts`)
+### Setup HTTP (`src/infrastructure/http-client/adapters/react/setup-http.ts`)
 
 Creates and caches a singleton Axios instance wired to the React adapter. All fields from `HttpConfig` can be overridden.
 
@@ -182,7 +183,7 @@ const http = getHttpInstance({
 })
 ```
 
-### Force Logout (`src/adapters/react/force-logout.ts`)
+### Force Logout (`src/infrastructure/http-client/adapters/react/force-logout.ts`)
 
 Called automatically by the interceptor after 3 failed refresh attempts.
 
@@ -192,7 +193,7 @@ Called automatically by the interceptor after 3 failed refresh attempts.
 
 ---
 
-## `useFetch` Hook (`src/adapters/react/use-fetch.ts`)
+## `useFetch` Hook (`src/infrastructure/http-client/adapters/react/use-fetch.ts`)
 
 ```ts
 useFetch<T>(url: string, options?: UseFetchOptions<T>): UseFetchResult<T>
@@ -268,11 +269,11 @@ const { data, loading, refetch } = useFetch<Post[]>('/api/posts', {
 
 ## Adding a Vue Adapter
 
-Implement the four files in `src/adapters/vue/` following the same `HttpConfig` interface:
+Implement the four files in `src/infrastructure/http-client/adapters/vue/` following the same `HttpConfig` interface:
 
 ```ts
 // adapters/vue/setup-http.ts
-import { createHttpInstance } from '@/core/http/axios-instance'
+import { createHttpInstance } from '@/infrastructure/http-client/core/http/axios-instance'
 import { useAuthStore } from './auth-store' // Pinia store
 import { forceLogout } from './force-logout' // Vue Router based
 
@@ -287,7 +288,7 @@ export function getHttpInstance() {
 }
 ```
 
-`core/http/` requires **no changes** when adding a new adapter.
+`infrastructure/http-client/core/http/` requires **no changes** when adding a new adapter.
 
 ---
 

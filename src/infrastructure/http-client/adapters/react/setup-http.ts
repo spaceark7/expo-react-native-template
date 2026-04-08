@@ -1,6 +1,6 @@
 import { HTTP_CONFIG } from '@/constants/config'
-import { createHttpInstance } from '@/core/http/axios-instance'
-import type { HttpConfig } from '@/core/http/types'
+import { createHttpInstance } from '@/infrastructure/http-client/core/http/axios-instance'
+import type { HttpConfig } from '@/infrastructure/http-client/core/http/types'
 import type { AxiosInstance } from 'axios'
 import { useAuthStore } from './auth-store'
 import { forceLogout } from './force-logout'

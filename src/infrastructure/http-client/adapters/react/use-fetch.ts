@@ -1,5 +1,8 @@
-import { executeRequest } from '@/core/http/request'
-import type { UseFetchOptions, UseFetchResult } from '@/core/http/types'
+import { executeRequest } from '@/infrastructure/http-client/core/http/request'
+import type {
+    UseFetchOptions,
+    UseFetchResult
+} from '@/infrastructure/http-client/core/http/types'
 import type { AxiosError } from 'axios'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { getHttpInstance } from './setup-http'

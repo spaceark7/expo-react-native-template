@@ -1,7 +1,6 @@
 import * as Device from 'expo-device'
 import { Platform, StyleSheet } from 'react-native'
 
-import { useFetch } from '@/adapters/react/use-fetch'
 import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
 import Badge from '@/components/ui/badge'
@@ -10,6 +9,7 @@ import ScrollViewRefresh from '@/components/ui/scrollview-refresh'
 import { WebBadge } from '@/components/web-badge'
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme'
 import { useTheme } from '@/hooks/use-theme'
+import { useFetch } from '@/infrastructure/http-client/adapters/react/use-fetch'
 import { verifyInstallation } from 'nativewind'
 import React from 'react'
 

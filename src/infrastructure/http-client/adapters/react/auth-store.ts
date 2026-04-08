@@ -1,4 +1,4 @@
-import type { AuthEntity } from '@/core/http/types'
+import type { AuthEntity } from '@/infrastructure/http-client/core/http/types'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'

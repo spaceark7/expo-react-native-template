@@ -71,7 +71,7 @@ This is a base template application designed to accelerate React Native developm
 
 ### � HTTP Client (`useFetch`)
 
-- **Framework-agnostic core** — `core/http/` has zero framework imports, reusable for Vue or any future adapter
+- **Framework-agnostic core** — `infrastructure/http-client/core/http/` has zero framework imports, reusable for Vue or any future adapter
 - **`useFetch` hook** — Nuxt-inspired data fetching hook with `{ data, loading, error, status, refetch }`
 - **Auto-fetch on mount** — `immediate: true` by default; set `false` for lazy/manual trigger
 - **Pull-to-refresh integration** — pass `refreshing={loading}` + `onRefresh={refetch}` to `ScrollViewRefresh`
@@ -153,40 +153,45 @@ This is a base template application designed to accelerate React Native developm
 ```
 src/
 ├── app/
-│   └── (tabs)/           # Tab-based navigation
-│       ├── (index)/      # Home tab
-│       ├── explore/      # Explore tab with demos
-│       └── setting/      # Settings tab
+│   ├── (tabs)/               # Tab-based navigation
+│   │   ├── (index)/          # Home tab
+│   │   ├── explore/          # Explore tab with demos
+│   │   └── setting/          # Settings tab
+│   └── profile/              # Profile stack screens
 ├── components/
 │   ├── themed-input.tsx
 │   ├── themed-numeric-input.tsx
 │   ├── themed-button.tsx
 │   ├── theme-toggle.tsx
 │   ├── app-tabs.tsx
-│   └── ui/               # Specialized UI components
+│   └── ui/                   # Specialized UI components
 ├── contexts/
 │   ├── theme-context.tsx
 │   └── tabbar-context.tsx
-├── core/
-│   └── http/             # Framework-agnostic HTTP core
-│       ├── types.ts      # AuthEntity, HttpConfig, UseFetchOptions
-│       ├── interceptors.ts
-│       ├── axios-instance.ts
-│       └── request.ts    # executeRequest + dedup cache
-├── adapters/
-│   ├── react/            # React Native / Expo bindings
-│   │   ├── auth-store.ts # Zustand + AsyncStorage
-│   │   ├── force-logout.ts
-│   │   ├── setup-http.ts
-│   │   └── use-fetch.ts  # useFetch hook
-│   └── vue/              # Future Vue bindings (stubs)
+├── infrastructure/
+│   └── http-client/
+│       ├── core/
+│       │   └── http/         # Framework-agnostic HTTP core
+│       │       ├── types.ts      # AuthEntity, HttpConfig, UseFetchOptions
+│       │       ├── interceptors.ts
+│       │       ├── axios-instance.ts
+│       │       └── request.ts    # executeRequest + dedup cache
+│       └── adapters/
+│           ├── react/        # React Native / Expo bindings
+│           │   ├── auth-store.ts # Zustand + AsyncStorage
+│           │   ├── force-logout.ts
+│           │   ├── setup-http.ts
+│           │   └── use-fetch.ts  # useFetch hook
+│           └── vue/          # Future Vue bindings (stubs)
 ├── hooks/
 │   ├── use-theme.ts
 │   ├── use-hide-tabbar.ts
 │   └── use-color-scheme.ts
+├── styles/
+│   └── styles.ts
 └── constants/
-    ├── theme.ts          # Color definitions
-    └── config.ts         # App + HTTP configuration
+    ├── theme.ts              # Color definitions
+    └── config.ts             # App + HTTP configuration
 ```
 
 ### Documentation
