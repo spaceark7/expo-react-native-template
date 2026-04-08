@@ -69,7 +69,25 @@ This is a base template application designed to accelerate React Native developm
 - Stack navigation within each tab
 - Demo screens for component showcase
 
-### 🎭 Animations
+### � HTTP Client (`useFetch`)
+
+- **Framework-agnostic core** — `core/http/` has zero framework imports, reusable for Vue or any future adapter
+- **`useFetch` hook** — Nuxt-inspired data fetching hook with `{ data, loading, error, status, refetch }`
+- **Auto-fetch on mount** — `immediate: true` by default; set `false` for lazy/manual trigger
+- **Pull-to-refresh integration** — pass `refreshing={loading}` + `onRefresh={refetch}` to `ScrollViewRefresh`
+- **Request deduplication** — `dedupe: true` shares in-flight Promises across concurrent callers
+- **Abort on unmount** — uses `AbortController` to cancel in-flight requests when component unmounts
+- **`onSuccess` / `onError` callbacks** — stable refs, never cause re-fetch loops
+- **Automatic token refresh** — 401 responses with `Require-Token: true` trigger a token refresh flow
+  - Concurrent 401s are queued and flushed together after one successful refresh
+  - After 3 failed refresh attempts → force logout (Alert + navigation)
+- **Zustand auth store** — tokens persisted to AsyncStorage via Zustand `persist` middleware
+- **Fully overridable** — swap token source, logout handler, or base URL per instance
+- **Vue-ready** — adapter stubs in `src/adapters/vue/` ready to implement with Pinia + Vue Router
+
+> See [docs/http-client.md](docs/http-client.md) for full API reference and usage examples.
+
+### �🎭 Animations
 
 - Animated splash screen overlay
 - Smooth theme transitions
@@ -149,13 +167,33 @@ src/
 ├── contexts/
 │   ├── theme-context.tsx
 │   └── tabbar-context.tsx
+├── core/
+│   └── http/             # Framework-agnostic HTTP core
+│       ├── types.ts      # AuthEntity, HttpConfig, UseFetchOptions
+│       ├── interceptors.ts
+│       ├── axios-instance.ts
+│       └── request.ts    # executeRequest + dedup cache
+├── adapters/
+│   ├── react/            # React Native / Expo bindings
+│   │   ├── auth-store.ts # Zustand + AsyncStorage
+│   │   ├── force-logout.ts
+│   │   ├── setup-http.ts
+│   │   └── use-fetch.ts  # useFetch hook
+│   └── vue/              # Future Vue bindings (stubs)
 ├── hooks/
 │   ├── use-theme.ts
 │   ├── use-hide-tabbar.ts
 │   └── use-color-scheme.ts
 └── constants/
     ├── theme.ts          # Color definitions
-    └── config.ts         # App configuration
+    └── config.ts         # App + HTTP configuration
+```
+
+### Documentation
+
+```
+docs/
+└── http-client.md        # useFetch & HTTP client full reference
 ```
 
 ## 🎨 Customization

@@ -6,16 +6,18 @@ import { useTheme } from '@/hooks/use-theme'
 import { ThemedView } from '../themed-view'
 
 export type CardProps = {
+  className?: string
   children: React.ReactNode
   style?: ViewStyle
   borderLeft?: boolean
 }
 
-export function Card({ children, style, borderLeft }: CardProps) {
+export function Card({ children, style, borderLeft, className }: CardProps) {
   const { theme } = useTheme()
 
   return (
     <ThemedView
+      className={className}
       style={[
         styles.card,
         { backgroundColor: theme.cardBackground },

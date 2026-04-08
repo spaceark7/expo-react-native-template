@@ -1,7 +1,7 @@
 /**
  * Material Design 3 Theme System
  * Generated from Material Theme Builder with custom seed color #185FA5
- * 
+ *
  * Using Material 3 color system for comprehensive theming support
  * Learn more: https://m3.material.io/styles/color/system/overview
  */
@@ -20,7 +20,7 @@ export const Palettes = {
   secondary: materialTheme.palettes.secondary,
   tertiary: materialTheme.palettes.tertiary,
   neutral: materialTheme.palettes.neutral,
-  neutralVariant: materialTheme.palettes['neutral-variant'],
+  neutralVariant: materialTheme.palettes['neutral-variant']
 } as const
 
 /**
@@ -47,7 +47,8 @@ export const Colors = {
     secondaryFixed: materialTheme.schemes.light.secondaryFixed,
     secondaryFixedDim: materialTheme.schemes.light.secondaryFixedDim,
     onSecondaryFixed: materialTheme.schemes.light.onSecondaryFixed,
-    onSecondaryFixedVariant: materialTheme.schemes.light.onSecondaryFixedVariant,
+    onSecondaryFixedVariant:
+      materialTheme.schemes.light.onSecondaryFixedVariant,
 
     // Material 3 Tertiary Colors
     tertiary: materialTheme.schemes.light.tertiary,
@@ -74,7 +75,8 @@ export const Colors = {
     surfaceContainerLow: materialTheme.schemes.light.surfaceContainerLow,
     surfaceContainer: materialTheme.schemes.light.surfaceContainer,
     surfaceContainerHigh: materialTheme.schemes.light.surfaceContainerHigh,
-    surfaceContainerHighest: materialTheme.schemes.light.surfaceContainerHighest,
+    surfaceContainerHighest:
+      materialTheme.schemes.light.surfaceContainerHighest,
     surfaceVariant: materialTheme.schemes.light.surfaceVariant,
     onSurfaceVariant: materialTheme.schemes.light.onSurfaceVariant,
     surfaceTint: materialTheme.schemes.light.surfaceTint,
@@ -111,6 +113,50 @@ export const Colors = {
     primary800: Palettes.primary[80],
     primary900: Palettes.primary[90],
 
+    secondary50: Palettes.secondary[5],
+    secondary100: Palettes.secondary[10],
+    secondary200: Palettes.secondary[20],
+    secondary300: Palettes.secondary[30],
+    secondary400: Palettes.secondary[40],
+    secondary500: Palettes.secondary[50],
+    secondary600: Palettes.secondary[60],
+    secondary700: Palettes.secondary[70],
+    secondary800: Palettes.secondary[80],
+    secondary900: Palettes.secondary[90],
+
+    tertiary50: Palettes.tertiary[5],
+    tertiary100: Palettes.tertiary[10],
+    tertiary200: Palettes.tertiary[20],
+    tertiary300: Palettes.tertiary[30],
+    tertiary400: Palettes.tertiary[40],
+    tertiary500: Palettes.tertiary[50],
+    tertiary600: Palettes.tertiary[60],
+    tertiary700: Palettes.tertiary[70],
+    tertiary800: Palettes.tertiary[80],
+    tertiary900: Palettes.tertiary[90],
+
+    neutral50: Palettes.neutral[5],
+    neutral100: Palettes.neutral[10],
+    neutral200: Palettes.neutral[20],
+    neutral300: Palettes.neutral[30],
+    neutral400: Palettes.neutral[40],
+    neutral500: Palettes.neutral[50],
+    neutral600: Palettes.neutral[60],
+    neutral700: Palettes.neutral[70],
+    neutral800: Palettes.neutral[80],
+    neutral900: Palettes.neutral[90],
+
+    neutralVariant50: Palettes['neutralVariant'][5],
+    neutralVariant100: Palettes['neutralVariant'][10],
+    neutralVariant200: Palettes['neutralVariant'][20],
+    neutralVariant300: Palettes['neutralVariant'][30],
+    neutralVariant400: Palettes['neutralVariant'][40],
+    neutralVariant500: Palettes['neutralVariant'][50],
+    neutralVariant600: Palettes['neutralVariant'][60],
+    neutralVariant700: Palettes['neutralVariant'][70],
+    neutralVariant800: Palettes['neutralVariant'][80],
+    neutralVariant900: Palettes['neutralVariant'][90],
+
     // Custom App Colors
     success: materialTheme.schemes.light.secondary,
     danger: materialTheme.schemes.light.error,
@@ -123,7 +169,7 @@ export const Colors = {
 
     // Card Colors
     cardBackground: materialTheme.schemes.light.surfaceContainerHigh,
-    cardText: materialTheme.schemes.light.onSurface,
+    cardText: materialTheme.schemes.light.onSurface
   },
   dark: {
     // Material 3 Primary Colors
@@ -208,6 +254,50 @@ export const Colors = {
     primary800: Palettes.primary[80],
     primary900: Palettes.primary[90],
 
+    secondary50: Palettes.secondary[5],
+    secondary100: Palettes.secondary[10],
+    secondary200: Palettes.secondary[20],
+    secondary300: Palettes.secondary[30],
+    secondary400: Palettes.secondary[40],
+    secondary500: Palettes.secondary[50],
+    secondary600: Palettes.secondary[60],
+    secondary700: Palettes.secondary[70],
+    secondary800: Palettes.secondary[80],
+    secondary900: Palettes.secondary[90],
+
+    tertiary50: Palettes.tertiary[5],
+    tertiary100: Palettes.tertiary[10],
+    tertiary200: Palettes.tertiary[20],
+    tertiary300: Palettes.tertiary[30],
+    tertiary400: Palettes.tertiary[40],
+    tertiary500: Palettes.tertiary[50],
+    tertiary600: Palettes.tertiary[60],
+    tertiary700: Palettes.tertiary[70],
+    tertiary800: Palettes.tertiary[80],
+    tertiary900: Palettes.tertiary[90],
+
+    neutral50: Palettes.neutral[5],
+    neutral100: Palettes.neutral[10],
+    neutral200: Palettes.neutral[20],
+    neutral300: Palettes.neutral[30],
+    neutral400: Palettes.neutral[40],
+    neutral500: Palettes.neutral[50],
+    neutral600: Palettes.neutral[60],
+    neutral700: Palettes.neutral[70],
+    neutral800: Palettes.neutral[80],
+    neutral900: Palettes.neutral[90],
+
+    neutralVariant50: Palettes['neutralVariant'][5],
+    neutralVariant100: Palettes['neutralVariant'][10],
+    neutralVariant200: Palettes['neutralVariant'][20],
+    neutralVariant300: Palettes['neutralVariant'][30],
+    neutralVariant400: Palettes['neutralVariant'][40],
+    neutralVariant500: Palettes['neutralVariant'][50],
+    neutralVariant600: Palettes['neutralVariant'][60],
+    neutralVariant700: Palettes['neutralVariant'][70],
+    neutralVariant800: Palettes['neutralVariant'][80],
+    neutralVariant900: Palettes['neutralVariant'][90],
+
     // Custom App Colors
     success: materialTheme.schemes.dark.secondary,
     danger: materialTheme.schemes.dark.error,
@@ -220,8 +310,8 @@ export const Colors = {
 
     // Card Colors
     cardBackground: materialTheme.schemes.dark.surfaceContainerHigh,
-    cardText: materialTheme.schemes.dark.onSurface,
-  },
+    cardText: materialTheme.schemes.dark.onSurface
+  }
 } as const
 
 export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark
@@ -235,21 +325,21 @@ export const Fonts = Platform.select({
     /** iOS `UIFontDescriptorSystemDesignRounded` */
     rounded: 'ui-rounded',
     /** iOS `UIFontDescriptorSystemDesignMonospaced` */
-    mono: 'ui-monospace',
+    mono: 'ui-monospace'
   },
   default: {
     sans: 'normal',
     serif: 'serif',
     rounded: 'normal',
-    mono: 'monospace',
+    mono: 'monospace'
   },
   web: {
     sans: 'var(--font-display)',
     serif: 'var(--font-serif)',
     rounded: 'var(--font-rounded)',
-    mono: 'var(--font-mono)',
-  },
-});
+    mono: 'var(--font-mono)'
+  }
+})
 
 export const Spacing = {
   half: 2,
@@ -258,33 +348,33 @@ export const Spacing = {
   three: 16,
   four: 24,
   five: 32,
-  six: 64,
-} as const;
+  six: 64
+} as const
 
-export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
-export const MaxContentWidth = 800;
+export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0
+export const MaxContentWidth = 800
 
 /**
  * Device size breakpoints (width in dp)
  */
 export const Breakpoints = {
-  phone: 0,      // < 600
-  tablet: 600,   // 600 - 1024
-  desktop: 1024, // > 1024
-} as const;
+  phone: 0, // < 600
+  tablet: 600, // 600 - 1024
+  desktop: 1024 // > 1024
+} as const
 
 /**
  * Detect device size category based on screen width
  */
 export function getDeviceSize(): 'phone' | 'tablet' | 'desktop' {
-  const { width } = Dimensions.get('window');
+  const { width } = Dimensions.get('window')
 
   if (width >= Breakpoints.desktop) {
-    return 'desktop';
+    return 'desktop'
   } else if (width >= Breakpoints.tablet) {
-    return 'tablet';
+    return 'tablet'
   }
-  return 'phone';
+  return 'phone'
 }
 
 /**
@@ -299,7 +389,7 @@ export const FontSizes = {
     large: 20,
     xlarge: 24,
     title: 32,
-    display: 48,
+    display: 48
   },
   tablet: {
     tiny: 14,
@@ -309,7 +399,7 @@ export const FontSizes = {
     large: 24,
     xlarge: 28,
     title: 40,
-    display: 56,
+    display: 56
   },
   desktop: {
     tiny: 16,
@@ -319,23 +409,21 @@ export const FontSizes = {
     large: 26,
     xlarge: 32,
     title: 48,
-    display: 64,
-  },
-} as const;
+    display: 64
+  }
+} as const
 
 /**
  * Get responsive font size based on current device size
  */
-export function responsiveFontSize(
-  size: keyof typeof FontSizes.phone
-): number {
-  const deviceSize = getDeviceSize();
-  return FontSizes[deviceSize][size];
+export function responsiveFontSize(size: keyof typeof FontSizes.phone): number {
+  const deviceSize = getDeviceSize()
+  return FontSizes[deviceSize][size]
 }
 
 /**
  * Line height multiplier for responsive text
  */
 export function responsiveLineHeight(fontSize: number): number {
-  return Math.round(fontSize * 1.5);
+  return Math.round(fontSize * 1.5)
 }

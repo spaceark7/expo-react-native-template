@@ -1,15 +1,24 @@
 import * as Device from 'expo-device'
-import { Platform, ScrollView, StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
+import { useFetch } from '@/adapters/react/use-fetch'
 import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
 import Badge from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
+import ScrollViewRefresh from '@/components/ui/scrollview-refresh'
 import { WebBadge } from '@/components/web-badge'
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme'
 import { useTheme } from '@/hooks/use-theme'
 import { verifyInstallation } from 'nativewind'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import React from 'react'
+
+interface Post {
+  id: number
+  title: string
+  body: string
+  userId: number
+}
 
 function getDevMenuHint() {
   if (Platform.OS === 'web') {
@@ -32,33 +41,100 @@ function getDevMenuHint() {
 
 export default function HomeScreen() {
   const { theme } = useTheme()
-  const safeAreaInsets = useSafeAreaInsets()
-  const insets = {
-    ...safeAreaInsets,
-    bottom: safeAreaInsets.bottom + BottomTabInset + Spacing.three
-  }
-  const contentPlatformStyle = Platform.select({
-    android: {
-      paddingTop: insets.top,
-      paddingLeft: insets.left,
-      paddingRight: insets.right,
-      paddingBottom: insets.bottom
-    },
-    web: {
-      paddingTop: Spacing.six,
-      paddingBottom: Spacing.four
+  const [randomQuote, setRandomQuote] = React.useState<
+    'love' | 'life' | 'person' | undefined
+  >()
+
+  const {
+    data: posts,
+    loading,
+    error,
+    refetch
+  } = useFetch<{ posts: Post[] }>('https://dummyjson.com/posts/search', {
+    method: 'GET',
+    headers: { 'Require-Token': false },
+    params: { limit: 5, q: randomQuote },
+    immediate: true,
+    dedupe: true,
+    onSuccess: (data) => {
+      console.log('Fetched posts:', data.posts)
     }
   })
+
+  const handleRefetch = () => {
+    setRandomQuote((prev) => {
+      if (prev === 'love') return 'life'
+      if (prev === 'life') return 'person'
+      if (prev === 'person') return undefined
+      return 'love'
+    })
+  }
 
   verifyInstallation()
 
   return (
-    <ScrollView
-      style={[styles.scrollView, { backgroundColor: theme.background }]}
-      contentInset={insets}
-      contentContainerStyle={[styles.contentContainer, contentPlatformStyle]}>
+    <ScrollViewRefresh
+      enablePullToRefresh
+      refreshing={loading}
+      onRefresh={handleRefetch}>
       <ThemedView style={styles.container}>
-        <Card style={styles.cardContainer}>
+        {/* ── useFetch demo ─────────────────────────────────── */}
+        <ThemedText
+          type='caption'
+          themeColor='textSecondary'
+          style={{ alignSelf: 'flex-start', marginBottom: Spacing.two }}>
+          LATEST POSTS (jsonplaceholder)
+        </ThemedText>
+        <Card
+          className='!bg-transparent'
+          style={{
+            ...styles.cardContainer,
+            marginBottom: Spacing.five,
+            padding: 0,
+            shadowOpacity: 0,
+            elevation: 0
+          }}>
+          {loading && (
+            <ThemedText type='small' themeColor='textSecondary'>
+              Loading...
+            </ThemedText>
+          )}
+          {!!error && (
+            <ThemedText type='small' style={{ color: theme.error }}>
+              Error: {error.message}
+            </ThemedText>
+          )}
+          {!loading &&
+            !error &&
+            posts?.posts.map((post) => (
+              <ThemedView
+                key={post.id}
+                style={{
+                  backgroundColor: theme.surfaceVariant,
+                  borderBottomWidth: 1,
+                  borderBottomColor: theme.outline,
+                  padding: Spacing.two,
+                  display: 'flex',
+                  marginBottom: Spacing.two
+                }}>
+                <ThemedText
+                  style={{ color: theme.onSurface }}
+                  type='smallBold'
+                  numberOfLines={1}>
+                  {post.id}. {post.title}
+                </ThemedText>
+                <ThemedText
+                  type='small'
+                  themeColor='textSecondary'
+                  numberOfLines={2}>
+                  {post.body}
+                </ThemedText>
+              </ThemedView>
+            ))}
+        </Card>
+        {/* ── end useFetch demo ─────────────────────────────── */}
+
+        <Card style={{ ...styles.cardContainer, marginBottom: Spacing.five }}>
           <ThemedText
             style={{
               fontSize: 10,
@@ -68,18 +144,10 @@ export default function HomeScreen() {
             }}>
             ANALISIS MINGGUAN
           </ThemedText>
-          <ThemedText
-            style={{
-              fontSize: 24,
-              fontWeight: '700'
-            }}>
+          <ThemedText style={{ fontSize: 24, fontWeight: '700' }}>
             -12%{' '}
             <ThemedText
-              style={{
-                color: theme.success,
-                fontSize: 14,
-                fontWeight: '400'
-              }}>
+              style={{ color: theme.success, fontSize: 14, fontWeight: '400' }}>
               Hemat dari minggu lalu
             </ThemedText>
           </ThemedText>
@@ -96,11 +164,7 @@ export default function HomeScreen() {
               <ThemedView
                 key={i}
                 style={[
-                  {
-                    flex: 1,
-                    borderTopLeftRadius: 4,
-                    borderTopRightRadius: 4
-                  },
+                  { flex: 1, borderTopLeftRadius: 4, borderTopRightRadius: 4 },
                   {
                     height: h,
                     backgroundColor:
@@ -112,6 +176,7 @@ export default function HomeScreen() {
             ))}
           </ThemedView>
         </Card>
+
         <ThemedText
           type='caption'
           themeColor='textSecondary'
@@ -122,9 +187,10 @@ export default function HomeScreen() {
           }}>
           SESI BERJALAN
         </ThemedText>
+
         <Card borderLeft style={styles.cardContainer}>
           <ThemedView className='!justify-between flex-row w-full !bg-transparent'>
-            <ThemedView className='!bg-transparent '>
+            <ThemedView className='!bg-transparent'>
               <ThemedText>
                 {new Date().toLocaleDateString('id-ID', {
                   weekday: 'long',
@@ -149,18 +215,10 @@ export default function HomeScreen() {
             }}>
             ANALISIS MINGGUAN
           </ThemedText>
-          <ThemedText
-            style={{
-              fontSize: 24,
-              fontWeight: '700'
-            }}>
+          <ThemedText style={{ fontSize: 24, fontWeight: '700' }}>
             -12%{' '}
             <ThemedText
-              style={{
-                color: theme.success,
-                fontSize: 14,
-                fontWeight: '400'
-              }}>
+              style={{ color: theme.success, fontSize: 14, fontWeight: '400' }}>
               Hemat dari minggu lalu
             </ThemedText>
           </ThemedText>
@@ -177,11 +235,7 @@ export default function HomeScreen() {
               <ThemedView
                 key={i}
                 style={[
-                  {
-                    flex: 1,
-                    borderTopLeftRadius: 4,
-                    borderTopRightRadius: 4
-                  },
+                  { flex: 1, borderTopLeftRadius: 4, borderTopRightRadius: 4 },
                   {
                     height: h,
                     backgroundColor:
@@ -196,7 +250,7 @@ export default function HomeScreen() {
 
         {Platform.OS === 'web' && <WebBadge />}
       </ThemedView>
-    </ScrollView>
+    </ScrollViewRefresh>
   )
 }
 
@@ -218,10 +272,8 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
-    // paddingHorizontal: Spacing.four,
     alignItems: 'center',
     gap: Spacing.three,
-    // paddingBottom: BottomTabInset + Spacing.three,
     maxWidth: MaxContentWidth
   },
   cardContainer: {

@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   Pressable,
   StyleSheet,
+  useColorScheme,
   View,
   type PressableProps,
   type ViewStyle
@@ -36,7 +37,8 @@ export function ThemedButton({
   style,
   ...rest
 }: ThemedButtonProps) {
-  const { theme } = useTheme()
+  const { theme, themeMode } = useTheme()
+  const colorScheme = useColorScheme()
 
   const isDisabled = disabled || loading
 
@@ -47,17 +49,17 @@ export function ThemedButton({
 
     switch (variant) {
       case 'primary':
-        return pressed ? theme.primary700 : theme.primary
-      case 'secondary':
-        return pressed ? theme.backgroundSelected : theme.backgroundElement
+        return pressed ? theme.primary500 : theme.primaryContainer
+      case 'success':
+        return pressed ? theme.secondary500 : theme.secondaryContainer
       case 'outline':
         return pressed ? theme.backgroundElement : 'transparent'
       case 'ghost':
         return pressed ? theme.backgroundElement : 'transparent'
       case 'danger':
         return pressed ? '#8B0017' : theme.danger
-      case 'success':
-        return pressed ? '#2B5509' : theme.success
+      case 'secondary':
+        return pressed ? theme.secondaryFixedDim : theme.secondaryFixed
       default:
         return pressed ? theme.primary700 : theme.primary
     }
@@ -71,9 +73,11 @@ export function ThemedButton({
     switch (variant) {
       case 'primary':
       case 'danger':
-      case 'success':
         return '#ffffff'
+      case 'success':
+        return colorScheme === 'dark' ? theme.text : theme.onSecondary
       case 'secondary':
+        return theme.onSecondaryFixed
       case 'outline':
       case 'ghost':
         return theme.text
