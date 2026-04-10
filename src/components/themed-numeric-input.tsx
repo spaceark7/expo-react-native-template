@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Pressable, StyleSheet, TextInput, View } from 'react-native'
 
 import { responsiveFontSize, Spacing } from '@/constants/theme'
@@ -36,9 +36,17 @@ export function ThemedNumericInput({
 }: ThemedNumericInputProps) {
   const { theme } = useTheme()
   const [inputValue, setInputValue] = useState(value.toString())
+  const [isFocused, setIsFocused] = useState(false)
+
+  useEffect(() => {
+    if (!isFocused) {
+      setInputValue(value.toString())
+    }
+  }, [isFocused, value])
 
   const handleIncrement = () => {
     const newValue = Math.min(value + step, max)
+    console.log(`Incrementing value to ${newValue}`) // Debug log
     onValueChange(newValue)
     setInputValue(newValue.toString())
   }
@@ -54,6 +62,9 @@ export function ThemedNumericInput({
 
     // Allow user to type freely, only validate the value
     const numValue = parseFloat(text)
+    console.log(
+      `User typed ${text} in numeric input, parsed value is ${numValue}`
+    ) // Debug log
     if (!isNaN(numValue)) {
       // Don't clamp while typing - let them enter any number
       // This allows typing numbers like "100" when max is 999 without interruption
@@ -62,6 +73,8 @@ export function ThemedNumericInput({
   }
 
   const handleBlur = () => {
+    setIsFocused(false)
+
     // Clamp to valid range on blur
     const numValue = parseFloat(inputValue)
     if (isNaN(numValue) || inputValue.trim() === '') {
@@ -164,6 +177,7 @@ export function ThemedNumericInput({
           <TextInput
             value={inputValue}
             onChangeText={handleTextChange}
+            onFocus={() => setIsFocused(true)}
             onBlur={handleBlur}
             keyboardType='numeric'
             editable={!disabled}

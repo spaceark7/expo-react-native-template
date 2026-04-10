@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons'
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 import {
   Pressable,
   StyleSheet,
@@ -43,7 +43,26 @@ export const ThemedInput = forwardRef<TextInput, ThemedInputProps>(
   ) => {
     const { theme } = useTheme()
     const [showPassword, setShowPassword] = useState(false)
+    const [isFocused, setIsFocused] = useState(false)
+    const isControlled = typeof rest.value === 'string'
+    const [inputValue, setInputValue] = useState(() =>
+      typeof rest.value === 'string' ? rest.value : ''
+    )
     const isPasswordField = secureTextEntry !== undefined
+
+    useEffect(() => {
+      if (isControlled && !isFocused) {
+        setInputValue(rest.value ?? '')
+      }
+    }, [isControlled, isFocused, rest.value])
+
+    const handleChangeText = (text: string) => {
+      if (isControlled) {
+        setInputValue(text)
+      }
+
+      rest.onChangeText?.(text)
+    }
 
     const getInputHeight = (): number => {
       switch (size) {
@@ -99,8 +118,19 @@ export const ThemedInput = forwardRef<TextInput, ThemedInputProps>(
 
           <TextInput
             ref={ref}
+            {...rest}
             editable={editable}
             secureTextEntry={isPasswordField ? !showPassword : secureTextEntry}
+            value={isControlled ? inputValue : rest.value}
+            onChangeText={handleChangeText}
+            onFocus={(event) => {
+              setIsFocused(true)
+              rest.onFocus?.(event)
+            }}
+            onBlur={(event) => {
+              setIsFocused(false)
+              rest.onBlur?.(event)
+            }}
             style={[
               ...(Array.isArray(style) ? style : [style]),
               styles.input,
@@ -110,7 +140,6 @@ export const ThemedInput = forwardRef<TextInput, ThemedInputProps>(
               }
             ]}
             placeholderTextColor={theme.textSecondary}
-            {...rest}
           />
 
           {isPasswordField && (

@@ -76,6 +76,20 @@ export default function TabTwoScreen() {
               onPress={() => router.push('/(tabs)/explore/input-demo')}>
               View Input Components Demo
             </ThemedButton>
+
+            <ThemedButton
+              variant='outline'
+              onPress={() => router.push('/(tabs)/explore/dynamic-store-demo')}>
+              View Dynamic Store Demo
+            </ThemedButton>
+
+            <ThemedButton
+              variant='outline'
+              onPress={() =>
+                router.push('/(tabs)/explore/scoped-dynamic-store-demo')
+              }>
+              View Scoped Dynamic Store Demo
+            </ThemedButton>
           </ThemedView>
         </ThemedView>
 
@@ -150,6 +164,29 @@ export default function TabTwoScreen() {
               component uses the powerful{' '}
               <ThemedText type='code'>react-native-reanimated</ThemedText>{' '}
               library to animate opening this hint.
+            </ThemedText>
+          </Collapsible>
+
+          <Collapsible title='Dynamic store usage'>
+            <ThemedText type='small'>
+              The dynamic store demo shows how to create a separate Zustand
+              store for each entity key, keep actions stable, and choose whether
+              a keyed instance persists or clears when the screen loses focus.
+            </ThemedText>
+            <ThemedText type='small'>
+              Check{' '}
+              <ThemedText type='code'>
+                src/infrastructure/store/examples/shopping-item-draft-store.ts
+              </ThemedText>{' '}
+              and the matching explore demo screen for the full pattern.
+            </ThemedText>
+            <ThemedText type='small'>
+              There is also a scoped provider-based example for modal or wizard
+              style flows in{' '}
+              <ThemedText type='code'>
+                src/app/(tabs)/explore/scoped-dynamic-store-demo.tsx
+              </ThemedText>
+              .
             </ThemedText>
           </Collapsible>
         </ThemedView>

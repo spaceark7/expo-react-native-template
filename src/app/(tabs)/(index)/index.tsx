@@ -55,10 +55,7 @@ export default function HomeScreen() {
     headers: { 'Require-Token': false },
     params: { limit: 5, q: randomQuote },
     immediate: true,
-    dedupe: true,
-    onSuccess: (data) => {
-      console.log('Fetched posts:', data.posts)
-    }
+    dedupe: true
   })
 
   const handleRefetch = () => {

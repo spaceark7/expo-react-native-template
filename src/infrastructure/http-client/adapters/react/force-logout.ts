@@ -1,12 +1,10 @@
+import { logout, resetAuthState } from '@/infrastructure/store/auth'
 import { router } from 'expo-router'
 import { Alert } from 'react-native'
-import { useAuthStore } from './auth-store'
 
 export function forceLogout(): void {
-  const { logout, resetState } = useAuthStore.getState()
-
   logout()
-  resetState()
+  resetAuthState()
 
   Alert.alert(
     'Session Expired',
