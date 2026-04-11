@@ -198,8 +198,16 @@ src/
 
 ```
 docs/
-└── http-client.md        # useFetch & HTTP client full reference
+├── http-client-use-fetch.md  # Practical guide for the HTTP client and useFetch
+├── http-client.md        # useFetch & HTTP client full reference
+├── route-structure.md    # Expo Router structure and protected route usage
+└── state-management.md   # Zustand patterns, shared store, and dynamic stores
 ```
+
+- [docs/http-client-use-fetch.md](docs/http-client-use-fetch.md)
+- [docs/http-client.md](docs/http-client.md)
+- [docs/route-structure.md](docs/route-structure.md)
+- [docs/state-management.md](docs/state-management.md)
 
 ## 🎨 Customization
 

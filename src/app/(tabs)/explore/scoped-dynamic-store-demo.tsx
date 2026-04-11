@@ -94,24 +94,29 @@ export default function ScopedDynamicStoreDemoScreen() {
         <ThemedView style={styles.heroSection}>
           <ThemedText type='subtitle'>Scoped Dynamic Store Demo</ThemedText>
           <ThemedText themeColor='textSecondary' style={styles.heroCopy}>
-            This pattern creates one store instance per mounted provider. It is
-            useful for modal flows, editors, or wizard sessions that should not
-            be cached globally by key.
+            Use this screen to see what happens when state is owned by a mounted
+            UI section instead of an item key. When a section unmounts, its
+            state disappears with it.
           </ThemedText>
         </ThemedView>
 
         <Card style={styles.sectionCard}>
-          <ThemedText type='default'>How This Pattern Works</ThemedText>
+          <ThemedText type='default'>What To Try</ThemedText>
           <ThemedText type='small' themeColor='textSecondary'>
-            1. `createScopedDynamicStore` builds a Provider and a
-            `useScopedStore` hook.
+            1. Change the quantity or note in Scope A.
           </ThemedText>
           <ThemedText type='small' themeColor='textSecondary'>
-            2. Inside the provider, the screen consumes named hooks backed by
-            `useStore` subscriptions.
+            2. Unmount Scope A and mount it again.
           </ThemedText>
           <ThemedText type='small' themeColor='textSecondary'>
-            3. Unmounting the provider destroys that scoped store instance.
+            3. Notice that its state starts over from the initial value.
+          </ThemedText>
+        </Card>
+
+        <Card style={styles.sectionCard}>
+          <ThemedText type='default'>Expected Result</ThemedText>
+          <ThemedText type='small' themeColor='textSecondary'>
+            Scoped state lives only while its provider is mounted.
           </ThemedText>
         </Card>
 
@@ -136,8 +141,8 @@ export default function ScopedDynamicStoreDemoScreen() {
         ) : (
           <Card style={styles.sectionCard}>
             <ThemedText type='small' themeColor='textSecondary'>
-              Scope A is unmounted. Mount it again to recreate its store from
-              the initial state.
+              Scope A is currently removed. Mount it again and it will start
+              over from its initial state.
             </ThemedText>
           </Card>
         )}
@@ -150,7 +155,8 @@ export default function ScopedDynamicStoreDemoScreen() {
         ) : (
           <Card style={styles.sectionCard}>
             <ThemedText type='small' themeColor='textSecondary'>
-              Scope B is unmounted. Its state disappears with the provider.
+              Scope B is currently removed. Its state is gone until the provider
+              mounts again.
             </ThemedText>
           </Card>
         )}

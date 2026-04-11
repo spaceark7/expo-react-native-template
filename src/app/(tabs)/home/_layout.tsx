@@ -16,12 +16,10 @@ export default function Layout() {
         headerTitleStyle: { color: theme.text, fontWeight: 'bold' },
         title: 'Buku Belanja',
         headerTintColor: theme.text,
-        headerRight({ tintColor }) {
-          //Mock Avatar - Navigate to shared profile screen
+        headerRight() {
           return (
             <AvatarAction
               onPress={() => {
-                console.log('Avatar pressed, navigating to profile')
                 router.push('/profile')
               }}
             />

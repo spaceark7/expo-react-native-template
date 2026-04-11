@@ -48,8 +48,7 @@ export default function HomeScreen() {
   const {
     data: posts,
     loading,
-    error,
-    refetch
+    error
   } = useFetch<{ posts: Post[] }>('https://dummyjson.com/posts/search', {
     method: 'GET',
     headers: { 'Require-Token': false },
@@ -75,7 +74,6 @@ export default function HomeScreen() {
       refreshing={loading}
       onRefresh={handleRefetch}>
       <ThemedView style={styles.container}>
-        {/* ── useFetch demo ─────────────────────────────────── */}
         <ThemedText
           type='caption'
           themeColor='textSecondary'
@@ -129,7 +127,6 @@ export default function HomeScreen() {
               </ThemedView>
             ))}
         </Card>
-        {/* ── end useFetch demo ─────────────────────────────── */}
 
         <Card style={{ ...styles.cardContainer, marginBottom: Spacing.five }}>
           <ThemedText

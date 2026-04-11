@@ -21,7 +21,7 @@ export default function AppTabs() {
         selected: theme.appBarIcon
       }}
       rippleColor={theme.primary}>
-      <NativeTabs.Trigger name='(index)'>
+      <NativeTabs.Trigger name='home'>
         <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon
           src={require('@/assets/images/tabIcons/home.png')}

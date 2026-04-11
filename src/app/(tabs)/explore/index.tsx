@@ -85,6 +85,12 @@ export default function TabTwoScreen() {
 
             <ThemedButton
               variant='outline'
+              onPress={() => router.push('/auth')}>
+              View Auth Demo
+            </ThemedButton>
+
+            <ThemedButton
+              variant='outline'
               onPress={() =>
                 router.push('/(tabs)/explore/scoped-dynamic-store-demo')
               }>
@@ -169,24 +175,40 @@ export default function TabTwoScreen() {
 
           <Collapsible title='Dynamic store usage'>
             <ThemedText type='small'>
-              The dynamic store demo shows how to create a separate Zustand
-              store for each entity key, keep actions stable, and choose whether
-              a keyed instance persists or clears when the screen loses focus.
+              The dynamic store demo lets you test two item draft behaviors:
+              drafts that stay saved, and drafts that clear when you leave the
+              screen.
+            </ThemedText>
+            <ThemedText type='small'>
+              The scoped store demo shows a different model where state exists
+              only while a UI section is mounted.
             </ThemedText>
             <ThemedText type='small'>
               Check{' '}
               <ThemedText type='code'>
                 src/infrastructure/store/examples/shopping-item-draft-store.ts
               </ThemedText>{' '}
-              and the matching explore demo screen for the full pattern.
+              and the matching explore screens if you want to inspect the full
+              implementation.
             </ThemedText>
             <ThemedText type='small'>
-              There is also a scoped provider-based example for modal or wizard
-              style flows in{' '}
+              The scoped example lives in{' '}
               <ThemedText type='code'>
                 src/app/(tabs)/explore/scoped-dynamic-store-demo.tsx
               </ThemedText>
               .
+            </ThemedText>
+          </Collapsible>
+
+          <Collapsible title='Auth demo'>
+            <ThemedText type='small'>
+              The auth demo shows a mocked sign-in request using{' '}
+              <ThemedText type='code'>useFetch</ThemedText> and stores the
+              resulting tokens in the shared auth state.
+            </ThemedText>
+            <ThemedText type='small'>
+              After sign-in, the same screen also makes a protected mock request
+              using the token from the store.
             </ThemedText>
           </Collapsible>
         </ThemedView>

@@ -64,6 +64,18 @@ const formatLifecycle = (lifecycle: ShoppingItemDraftLifecycle | null) => {
   return 'Choose on create'
 }
 
+const describeLifecycle = (lifecycle: ShoppingItemDraftLifecycle | null) => {
+  if (lifecycle === 'destroy-on-route-leave') {
+    return 'Changes are cleared when you leave this screen.'
+  }
+
+  if (lifecycle === 'persist') {
+    return 'Changes stay saved when you leave this screen.'
+  }
+
+  return 'Pick a mode to create the draft.'
+}
+
 function DraftPreviewCard({
   itemId,
   title,
@@ -89,6 +101,9 @@ function DraftPreviewCard({
         Lifecycle: {formatLifecycle(lifecycle)}
       </ThemedText>
       <ThemedText type='small' themeColor='textSecondary'>
+        {describeLifecycle(lifecycle)}
+      </ThemedText>
+      <ThemedText type='small' themeColor='textSecondary'>
         Note: {note || 'No note yet'}
       </ThemedText>
       <ThemedText type='small' themeColor='textSecondary'>
@@ -100,7 +115,7 @@ function DraftPreviewCard({
         variant={isActive ? 'secondary' : 'outline'}
         size='small'
         onPress={() => onOpen(itemId)}>
-        {isActive ? 'Editing' : 'Open Draft'}
+        {isActive ? 'Currently Editing' : 'Open This Draft'}
       </ThemedButton>
     </Card>
   )
@@ -136,6 +151,9 @@ function CurrentDraftEditor({
         <ThemedText type='small' themeColor='textSecondary'>
           Lifecycle: {formatLifecycle(lifecycle)}
         </ThemedText>
+        <ThemedText type='small' themeColor='textSecondary'>
+          {describeLifecycle(lifecycle)}
+        </ThemedText>
       </ThemedView>
 
       <ThemedNumericInput
@@ -149,7 +167,7 @@ function CurrentDraftEditor({
         }}
         min={0}
         max={99}
-        helperText='This value is isolated to the selected item ID.'
+        helperText='Try changing this number, then switch to another item to compare states.'
       />
 
       <ThemedInput
@@ -157,7 +175,7 @@ function CurrentDraftEditor({
         placeholder='Write something specific to this item...'
         value={note}
         onChangeText={draftActions.setNote}
-        helperText='Switch items and this note stays with the current key.'
+        helperText='Type a note here. It belongs only to this item.'
       />
 
       <ThemedView style={styles.inlineActions}>
@@ -171,10 +189,10 @@ function CurrentDraftEditor({
 
       <ThemedView style={styles.inlineActions}>
         <ThemedButton variant='ghost' onPress={draftActions.reset}>
-          Reset Draft
+          Reset This Draft
         </ThemedButton>
         <ThemedButton variant='outline' onPress={onRemoveDraftStore}>
-          Remove Draft Store
+          Delete This Draft
         </ThemedButton>
       </ThemedView>
 
@@ -280,24 +298,37 @@ export default function DynamicStoreDemoScreen() {
         <ThemedView style={styles.heroSection}>
           <ThemedText type='subtitle'>Dynamic Store Demo</ThemedText>
           <ThemedText themeColor='textSecondary' style={styles.heroCopy}>
-            This example creates a separate vanilla Zustand store per item key.
-            Each keyed instance chooses its lifecycle when it is created:
-            persistent, or auto-clear when this screen loses focus.
+            Use this screen to compare two behaviors for item-based drafts: one
+            that stays saved after you leave, and one that clears when you leave
+            the screen.
           </ThemedText>
         </ThemedView>
 
         <Card style={styles.sectionCard}>
-          <ThemedText type='default'>How This Pattern Works</ThemedText>
+          <ThemedText type='default'>What To Try</ThemedText>
           <ThemedText type='small' themeColor='textSecondary'>
-            1. The generic factory creates a vanilla store per entity key.
+            1. Create a draft for any item using either Persistent or
+            Auto-Clear.
           </ThemedText>
           <ThemedText type='small' themeColor='textSecondary'>
-            2. The screen consumes named hooks that subscribe directly to the
-            keyed store instance for each item.
+            2. Change the quantity and note, then switch to another item.
           </ThemedText>
           <ThemedText type='small' themeColor='textSecondary'>
-            3. Lifecycle is chosen on first create: persistent or auto-clear on
-            screen blur.
+            3. Leave this screen and come back. Persistent drafts should stay.
+            Auto-Clear drafts should reset.
+          </ThemedText>
+        </Card>
+
+        <Card style={styles.sectionCard}>
+          <ThemedText type='default'>Current Screen State</ThemedText>
+          <ThemedText type='small' themeColor='textSecondary'>
+            Active drafts: {activeDraftKeys.length}
+          </ThemedText>
+          <ThemedText type='small' themeColor='textSecondary'>
+            Auto-clear drafts: {autoClearItemIds.length}
+          </ThemedText>
+          <ThemedText type='small' themeColor='textSecondary'>
+            Selected item: {currentItem?.title ?? 'None selected'}
           </ThemedText>
         </Card>
 
@@ -309,14 +340,17 @@ export default function DynamicStoreDemoScreen() {
                 {item.description}
               </ThemedText>
               <ThemedText type='small' themeColor='textSecondary'>
-                Store status:{' '}
+                Draft:{' '}
                 {hasShoppingItemDraftStore(item.id)
-                  ? 'Created'
+                  ? 'Ready'
                   : 'Not created yet'}
               </ThemedText>
               <ThemedText type='small' themeColor='textSecondary'>
-                Lifecycle:{' '}
+                Mode:{' '}
                 {formatLifecycle(getShoppingItemDraftStoreLifecycle(item.id))}
+              </ThemedText>
+              <ThemedText type='small' themeColor='textSecondary'>
+                {describeLifecycle(getShoppingItemDraftStoreLifecycle(item.id))}
               </ThemedText>
 
               <ThemedView style={styles.selectionActions}>
@@ -326,8 +360,8 @@ export default function DynamicStoreDemoScreen() {
                   }
                   onPress={() => handleOpenDraft(item.id, 'persist')}>
                   {hasShoppingItemDraftStore(item.id)
-                    ? 'Open as Persistent'
-                    : 'Create Persistent'}
+                    ? 'Use Persistent Mode'
+                    : 'Create Persistent Draft'}
                 </ThemedButton>
 
                 <ThemedButton
@@ -336,8 +370,8 @@ export default function DynamicStoreDemoScreen() {
                     handleOpenDraft(item.id, 'destroy-on-route-leave')
                   }>
                   {hasShoppingItemDraftStore(item.id)
-                    ? 'Open as Auto-Clear'
-                    : 'Create Auto-Clear'}
+                    ? 'Use Auto-Clear Mode'
+                    : 'Create Auto-Clear Draft'}
                 </ThemedButton>
               </ThemedView>
             </Card>
@@ -354,28 +388,29 @@ export default function DynamicStoreDemoScreen() {
           />
         ) : (
           <Card style={styles.sectionCard}>
-            <ThemedText type='default'>No Draft Selected</ThemedText>
+            <ThemedText type='default'>Choose An Item To Start</ThemedText>
             <ThemedText type='small' themeColor='textSecondary'>
-              Create a persistent or auto-clear draft above, then leave this
-              screen to observe blur cleanup.
+              Start by picking one item above. Create it as Persistent if you
+              want it to stay after navigation, or Auto-Clear if you want it to
+              reset when you leave this screen.
             </ThemedText>
           </Card>
         )}
 
         <Card style={styles.sectionCard}>
           <ThemedView style={styles.registryHeader}>
-            <ThemedText type='default'>Active Draft Registry</ThemedText>
+            <ThemedText type='default'>Created Drafts</ThemedText>
             <ThemedButton
               variant='ghost'
               size='small'
               onPress={handleClearAllDrafts}>
-              Clear All Drafts
+              Delete All Drafts
             </ThemedButton>
           </ThemedView>
 
           {activeDraftKeys.length === 0 ? (
             <ThemedText type='small' themeColor='textSecondary'>
-              No dynamic stores are active yet.
+              No drafts have been created yet.
             </ThemedText>
           ) : (
             <ThemedView style={styles.previewGrid}>

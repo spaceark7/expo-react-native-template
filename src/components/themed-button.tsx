@@ -2,10 +2,13 @@ import React from 'react'
 import {
   ActivityIndicator,
   Pressable,
+  type PressableProps,
+  type PressableStateCallbackType,
+  type StyleProp,
   StyleSheet,
+  type TextStyle,
   useColorScheme,
   View,
-  type PressableProps,
   type ViewStyle
 } from 'react-native'
 
@@ -23,6 +26,10 @@ export type ThemedButtonProps = PressableProps & {
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
   iconOnly?: boolean
+  containerStyle?:
+    | StyleProp<ViewStyle>
+    | ((state: PressableStateCallbackType) => StyleProp<ViewStyle>)
+  textStyle?: StyleProp<TextStyle>
 }
 
 export function ThemedButton({
@@ -34,10 +41,12 @@ export function ThemedButton({
   leftIcon,
   rightIcon,
   iconOnly = false,
+  containerStyle,
+  textStyle,
   style,
   ...rest
 }: ThemedButtonProps) {
-  const { theme, themeMode } = useTheme()
+  const { theme } = useTheme()
   const colorScheme = useColorScheme()
 
   const isDisabled = disabled || loading
@@ -202,7 +211,7 @@ export function ThemedButton({
 
         {hasTextContent ? (
           <ThemedText
-            style={[styles.text, { color: getTextColor() }]}
+            style={[styles.text, { color: getTextColor() }, textStyle]}
             type={getTextSize()}>
             {children}
           </ThemedText>
@@ -229,16 +238,19 @@ export function ThemedButton({
           : style
       }
       {...rest}>
-      {({ pressed }) => (
+      {(state) => (
         <View
           style={[
             styles.button,
             {
-              backgroundColor: getBackgroundColor(pressed),
+              backgroundColor: getBackgroundColor(state.pressed),
               opacity: isDisabled ? 0.5 : 1
             },
             getBorderStyle(),
-            getSizeStyles()
+            getSizeStyles(),
+            typeof containerStyle === 'function'
+              ? containerStyle(state)
+              : containerStyle
           ]}>
           {renderContent()}
         </View>
