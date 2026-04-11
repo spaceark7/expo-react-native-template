@@ -132,21 +132,24 @@ The current auth flow in this template uses `useFetch` with a mocked adapter.
 Example pattern:
 
 ```tsx
-const { loading, error, refetch } = useFetch<MockAuthResponse>('/mock/auth/login', {
-  method: 'POST',
-  headers: { 'Require-Token': false },
-  data: {
-    email: email.trim(),
-    password
-  },
-  adapter: mockAuthAdapter,
-  immediate: false,
-  onSuccess: (response) => {
-    void setAuthTokens(response).then(() => {
-      router.replace('/(tabs)/home')
-    })
+const { loading, error, refetch } = useFetch<MockAuthResponse>(
+  '/mock/auth/login',
+  {
+    method: 'POST',
+    headers: { 'Require-Token': false },
+    data: {
+      email: email.trim(),
+      password
+    },
+    adapter: mockAuthAdapter,
+    immediate: false,
+    onSuccess: (response) => {
+      void setAuthTokens(response).then(() => {
+        router.replace('/(tabs)/home')
+      })
+    }
   }
-})
+)
 ```
 
 What this does:
